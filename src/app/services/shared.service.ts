@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 })
 export class SharedService {
   dayBasis: number = 70;
-  zoomStep: number = 0;
+  zoomStep: number = -50;
   zoomLevel$: BehaviorSubject<number>;
   //
   constructor() {

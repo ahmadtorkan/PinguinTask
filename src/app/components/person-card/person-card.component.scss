@@ -47,6 +47,8 @@ $color: #8a56ac;
   align-self: center;
   text-align: start;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .card-owner {
   flex: 3 0;
