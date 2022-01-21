@@ -1,0 +1,90 @@
+$color: #8a56ac;
+.small-task-inf {
+  position: absolute;
+  margin: 5px -5px 5px 0;
+  border-radius: 10px 0 0 10px;
+  height: 60px;
+  width: 500px;
+  background-color: #9865b3;
+}
+.card-box {
+  background-color: #fcf6ff;
+  margin: 5px 0;
+  position: relative;
+  height: 60px;
+  border: 1px dashed $color;
+  border-radius: 10px;
+}
+.card-box:hover {
+  border: 1px solid $color;
+  background-color: #f5e7ff;
+  cursor: pointer;
+}
+
+.card-box:active {
+  border: 1px dashed $color;
+  background-color: #cfbadf;
+  cursor: pointer;
+}
+.card-cont {
+  height: 80%;
+  box-sizing: border-box;
+  padding-right: 10px;
+  margin: 5px 0 5px 10px;
+  border-radius: 3px;
+  border-left: 5px solid red;
+}
+.top-card {
+  // color: $color;
+  height: 50%;
+  justify-content: center;
+  display: flex;
+  margin: 0 5px;
+}
+.card-key {
+  flex: 3 0;
+  padding-left: 5px;
+  align-self: center;
+  text-align: start;
+  text-overflow: ellipsis;
+}
+.card-owner {
+  flex: 3 0;
+  text-align: end;
+  padding-right: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-wrap: nowrap;
+  align-self: center;
+}
+.card-due {
+  flex: 90px 30px;
+  padding: 0 5px;
+  border-radius: 3px;
+  background-color: $color;
+  color: #fff;
+  align-self: center;
+  text-align: end;
+}
+.task-info {
+  // color: $color;
+  height: 50%;
+  justify-content: center;
+  display: flex;
+}
+.task-summary {
+  padding-left: 10px;
+  align-self: center;
+  flex: 4 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-wrap: nowrap;
+}
+.task-detail {
+  text-align: end;
+  align-self: center;
+  padding-right: 5px;
+  flex: 2 0;
+}

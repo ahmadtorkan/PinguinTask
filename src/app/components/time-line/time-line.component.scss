@@ -1,0 +1,67 @@
+$p-color: #8a56ac;
+$l-gray: #f0f0f0;
+$m-gray: #d8d6d6;
+$h-gray: #a1a1a1;
+.time-line {
+  position: sticky;
+  height: 50px;
+  color: #000;
+  text-align: center;
+  top: 50px;
+  z-index: 2000;
+  width: auto;
+}
+.day-container {
+  background-color: #fff;
+  position: absolute;
+  padding: 10px 0;
+  border-left: 2px dashed $m-gray;
+  border-top: 2px solid $m-gray;
+  border-bottom: 2px solid $m-gray;
+  min-width: fit-content;
+  z-index: 1000;
+}
+.day-row {
+  padding-left: 5px;
+}
+.day {
+  background-color: $p-color;
+  color: #fff;
+  border-radius: 50px;
+  padding: 2px 4px;
+}
+.date-row {
+  padding-top: 0px;
+  display: block;
+  color: $h-gray;
+  font-size: 15px;
+  box-sizing: border-box;
+  z-index: -100;
+}
+.week-end {
+  border-left: 2px dashed $m-gray;
+  background-image: linear-gradient(
+    131deg,
+    #ffffff 47.83%,
+    #ffbaba 47.83%,
+    #ffbaba 50%,
+    #ffffff 50%,
+    #ffffff 97.83%,
+    #ffbaba 97.83%,
+    #ffbaba 100%
+  );
+  background-size: 30.48px 35.06px;
+}
+.week-end-box {
+  background-color: #910000;
+}
+.space {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 103px;
+  height: 70px;
+  border-top: 2px solid $m-gray;
+  border-bottom: 2px solid $m-gray;
+  background-color: #fff;
+}

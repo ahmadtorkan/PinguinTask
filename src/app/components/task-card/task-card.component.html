@@ -1,0 +1,22 @@
+<div class="task-container">
+  <div class="person-box">{{ label }}</div>
+  <div class="task-cards">
+    <div *ngFor="let itm of taskItems">
+      <app-person-card
+        (click)="taskInfo(itm.id)"
+        [taskKey]="itm.key"
+        [label]="label"
+        [summary]="itm.fields.summary"
+        [owner]="itm.fields?.creator.displayName"
+        [id]="+itm.id"
+        [taskDur]="itm.fields.timetracking.originalEstimate"
+        [taskTime]="
+          taskDurCalc(
+            itm.renderedFields.duedate,
+            itm.fields.timetracking.originalEstimateSeconds
+          )
+        "
+      ></app-person-card>
+    </div>
+  </div>
+</div>

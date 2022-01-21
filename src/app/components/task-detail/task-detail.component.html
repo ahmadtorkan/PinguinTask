@@ -1,0 +1,38 @@
+<h2 class="text-center">Issue Info</h2>
+<div class="row">
+  <span class="label">labels</span>
+  <div>
+    <span *ngFor="let lbl of taskInfo.fields.labels" class="value">{{
+      lbl
+    }}</span>
+  </div>
+</div>
+<div class="row">
+  <span class="label">id</span>
+  <span class="value">{{ taskInfo.id }}</span>
+</div>
+<div class="row">
+  <span class="label">Key</span>
+  <span class="value">{{ taskInfo.key }}</span>
+</div>
+<div class="row">
+  <span class="label">summary</span>
+  <span class="value">{{ taskInfo.fields.summary }}</span>
+</div>
+<div class="row">
+  <span class="label">Issue Description</span>
+  <span class="value">{{ taskInfo.fields.issuetype.description }}</span>
+</div>
+<div class="row">
+  <span class="label">dueDate</span>
+  <span class="value">{{ clearDate | date }}</span>
+</div>
+<div class="row">
+  <span class="label">duration</span>
+  <span class="value"
+    >{{
+      taskInfo.fields.timetracking.originalEstimateSeconds / 8 / 60 / 60
+    }}
+    Working Days</span
+  >
+</div>

@@ -1,0 +1,25 @@
+<body
+  [style.width]="allDays.length * dayLength + 102 + 'px'"
+  [style.min-width]="'1000px'"
+>
+  <div class="label-box">
+    <div class="label-check" *ngFor="let item of allLabels; let i = index">
+      <label class="label-i" [for]="item">{{ item }}</label>
+      <input
+        type="checkbox"
+        [checked]="i === 0"
+        [id]="item"
+        (change)="labelAdd($event, item)"
+      />
+    </div>
+  </div>
+  <app-time-line [days]="allDays" [months]="allMonth"></app-time-line>
+  <div class="card-box">
+    <div *ngFor="let lbl of labels">
+      <app-task-card
+        [label-name]="lbl"
+        style="position: relative"
+      ></app-task-card>
+    </div>
+  </div>
+</body>

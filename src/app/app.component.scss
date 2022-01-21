@@ -1,0 +1,44 @@
+$p-color: #8a56ac;
+$l-gray: #f0f0f0;
+$m-gray: #d8d6d6;
+$h-gray: #a1a1a1;
+
+button {
+  margin-right: 10px;
+}
+
+.card-box {
+  position: relative;
+  top: 18px;
+  z-index: 1000;
+}
+.label-box {
+  background-color: $l-gray;
+  width: 100%;
+  box-shadow: 1px 1px 5px 1px $m-gray;
+  padding-top: 5px;
+  padding: 8px 15px 0 10px;
+  position: sticky;
+  top: 0px;
+  left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow: visible;
+  z-index: 2000;
+}
+
+.label-check {
+  color: $p-color;
+  padding: 5px 10px;
+}
+.label-i {
+  padding-right: 5px;
+}
+input[type="checkbox"],
+label {
+  cursor: pointer;
+}

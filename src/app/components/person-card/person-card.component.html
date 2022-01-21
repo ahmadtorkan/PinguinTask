@@ -1,0 +1,50 @@
+<div style="display: flex">
+  <div
+    *ngIf="verySmallCard"
+    [style.left]="startPos - 390 + 'px'"
+    class="small-task-inf"
+  >
+    <div class="card-cont text-white">
+      <div class="top-card">
+        <div class="card-key">
+          <span>Key :</span>
+          {{ taskKey }}
+        </div>
+        <div class="card-owner">{{ owner }}</div>
+      </div>
+      <div class="task-info">
+        <div class="task-summary">{{ summary }}</div>
+        <div class="task-summary">
+          {{ owner }}
+        </div>
+        <div class="card-due">{{ taskDur }}</div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="card-box"
+    cdkDrag
+    (cdkDragEnded)="dropped($event)"
+    cdkDragBoundary=".card-box"
+    #cardBox
+    [style.width]="duration + 'px'"
+    [style.left]="startPos + 'px'"
+    data-toggle="tooltip"
+    data-placement="top"
+    [title]="taskKey + ' | ' + owner + ' | ' + summary + ' | ' + taskDur"
+  >
+    <div class="card-cont">
+      <div class="top-card">
+        <div *ngIf="!verySmallCard" class="card-key">{{ taskKey }}</div>
+        <div *ngIf="!smallCard" class="card-owner">{{ owner }}</div>
+      </div>
+      <div class="task-info">
+        <div *ngIf="!smallCard" class="task-summary">{{ summary }}</div>
+        <div *ngIf="smallCard && !verySmallCard" class="task-summary">
+          {{ owner }}
+        </div>
+        <div *ngIf="!smallCard" class="card-due">{{ taskDur }}</div>
+      </div>
+    </div>
+  </div>
+</div>
