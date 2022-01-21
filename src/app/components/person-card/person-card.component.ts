@@ -24,12 +24,16 @@ import { UtilityService } from "src/app/services/utility.service";
   styleUrls: ["./person-card.component.scss"],
 })
 export class PersonCardComponent implements OnInit, OnDestroy {
+  //
+  @ViewChild("cardBox", { read: ElementRef, static: true }) cardBox: ElementRef;
+  //
   @Input("taskDur") taskDur: string;
   @Input("label") label: string;
   @Input("taskKey") taskKey: string = "";
   @Input("summary") summary: string = "";
   @Input("owner") owner?: string = "";
   @Input("id") id: number = 0;
+  //
   private _taskTime;
   @Input("taskTime") public set taskTime(value: {
     startDay: number;
@@ -45,14 +49,12 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     return this._taskTime;
   }
   //
-  @ViewChild("cardBox", { read: ElementRef, static: true }) cardBox: ElementRef;
-  //
+  zoomLevel: number;
+  top: number = 0;
   startPos: number = 0;
   duration: number = 0;
   smallCard: boolean;
   verySmallCard: boolean = false;
-  top: number = 0;
-  zoomLevel: number;
   //
   zoomSubj$ = new Subscription();
   constructor(

@@ -3,11 +3,7 @@ import { concatAll, first, map, tap } from "rxjs/operators";
 import { Issue } from "src/app/model/temp-data.model";
 import { TaskService } from "src/app/services/task.service";
 import { UtilityService } from "src/app/services/utility.service";
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { TaskDetailComponent } from "../task-detail/task-detail.component";
 @Component({
   selector: "app-task-card",
