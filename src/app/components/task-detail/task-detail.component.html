@@ -1,38 +1,36 @@
-<h2 class="text-center">Issue Info</h2>
-<div class="row">
-  <span class="label">labels</span>
-  <div>
-    <span *ngFor="let lbl of taskInfo.fields.labels" class="value">{{
-      lbl
-    }}</span>
+<div class="task-box text-center">Task ID : {{ taskInfo.id }}</div>
+<div class="task-box">
+  <div class="d-flex justify-content-start">
+    <div *ngFor="let lbl of taskInfo.fields.labels" class="lbl-body mr-4">
+      {{ lbl }}
+    </div>
   </div>
 </div>
-<div class="row">
-  <span class="label">id</span>
-  <span class="value">{{ taskInfo.id }}</span>
+<div class="task-box">
+  <div class="d-flex justify-content-start">
+    <div class="text-center info-box mr-4">
+      <div class="box-header">KEY</div>
+      <div class="box-body">{{ taskInfo.key }}</div>
+    </div>
+    <div class="text-center info-box mr-4">
+      <div class="box-header">dueDate</div>
+      <div class="box-body">{{ clearDate | date }}</div>
+    </div>
+    <div class="text-center info-box mr-4">
+      <div class="box-header">duration</div>
+      <div class="box-body">
+        {{ taskInfo.fields.timetracking.originalEstimateSeconds / 8 / 60 / 60 }}
+        Working Days
+      </div>
+    </div>
+  </div>
 </div>
-<div class="row">
-  <span class="label">Key</span>
-  <span class="value">{{ taskInfo.key }}</span>
-</div>
-<div class="row">
+
+<div class="d-flex task-box">
   <span class="label">summary</span>
   <span class="value">{{ taskInfo.fields.summary }}</span>
 </div>
-<div class="row">
+<div class="d-flex task-box">
   <span class="label">Issue Description</span>
   <span class="value">{{ taskInfo.fields.issuetype.description }}</span>
-</div>
-<div class="row">
-  <span class="label">dueDate</span>
-  <span class="value">{{ clearDate | date }}</span>
-</div>
-<div class="row">
-  <span class="label">duration</span>
-  <span class="value"
-    >{{
-      taskInfo.fields.timetracking.originalEstimateSeconds / 8 / 60 / 60
-    }}
-    Working Days</span
-  >
 </div>

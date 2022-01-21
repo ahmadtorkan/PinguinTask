@@ -1,10 +1,25 @@
-.row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  border: 1px solid #dadada;
+$color: #914ac9;
+$p-color: #ebdef5;
+$h-color: #ab61e4;
+.task-box {
+  color: $color;
+  padding: 5px 0;
+  border-bottom: 1px dashed $color;
 }
+.lbl-body {
+  padding: 5px 10px;
+  background-color: $p-color;
+  border-radius: 12px;
+}
+.info-box {
+  padding: 8px;
+  background-color: $p-color;
+  border-radius: 12px;
+}
+.box-header {
+  color: $h-color;
+}
+
 .label {
   flex: 30%;
   padding: 2px 10px;

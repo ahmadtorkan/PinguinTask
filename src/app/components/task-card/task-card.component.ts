@@ -78,7 +78,7 @@ export class TaskCardComponent implements OnInit {
   taskInfo(key: string) {
     const dialogRef = this.dialog.open(TaskDetailComponent, {
       width: "450px",
-      height: "370px",
+      height: "280px",
       data: { key },
     });
   }
