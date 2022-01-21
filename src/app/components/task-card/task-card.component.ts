@@ -3,8 +3,6 @@ import { concatAll, first, map, tap } from "rxjs/operators";
 import { Issue } from "src/app/model/temp-data.model";
 import { TaskService } from "src/app/services/task.service";
 import { UtilityService } from "src/app/services/utility.service";
-import { MatDialog } from "@angular/material/dialog";
-import { TaskDetailComponent } from "../task-detail/task-detail.component";
 @Component({
   selector: "app-task-card",
   templateUrl: "./task-card.component.html",
@@ -16,7 +14,6 @@ export class TaskCardComponent implements OnInit {
   //
   taskItems: Issue[] = [];
   constructor(
-    public dialog: MatDialog,
     private taskService: TaskService,
     private utility: UtilityService
   ) {}
@@ -71,11 +68,4 @@ export class TaskCardComponent implements OnInit {
     return { startDay: spc, days: days };
   }
   //
-  taskInfo(key: string) {
-    const dialogRef = this.dialog.open(TaskDetailComponent, {
-      width: "450px",
-      height: "280px",
-      data: { key },
-    });
-  }
 }

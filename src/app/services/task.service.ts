@@ -48,7 +48,7 @@ export class TaskService {
   //
   getTaskByID(id: string) {
     return this.tempDate$.pipe(
-      map((x) => x.filter((v) => v.id === id), take(1)),
+      map((x) => x.filter((v) => v.id === id.toString()), take(1)),
       tap((x) => console.log(x))
     );
   }

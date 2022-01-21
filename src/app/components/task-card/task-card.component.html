@@ -3,7 +3,6 @@
   <div class="task-cards">
     <div *ngFor="let itm of taskItems">
       <app-person-card
-        (click)="taskInfo(itm.id)"
         [taskKey]="itm.key"
         [label]="label"
         [summary]="itm.fields.summary"

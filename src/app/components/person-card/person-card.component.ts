@@ -13,10 +13,12 @@ import {
   Output,
   EventEmitter,
 } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 import { SharedService } from "src/app/services/shared.service";
 import { TaskService } from "src/app/services/task.service";
 import { UtilityService } from "src/app/services/utility.service";
+import { TaskDetailComponent } from "../task-detail/task-detail.component";
 
 @Component({
   selector: "app-person-card",
@@ -58,6 +60,7 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   //
   zoomSubj$ = new Subscription();
   constructor(
+    public dialog: MatDialog,
     private sharedService: SharedService,
     private taskService: TaskService,
     private utility: UtilityService
@@ -98,6 +101,13 @@ export class PersonCardComponent implements OnInit, OnDestroy {
       this.taskService.tempDate$.next(lastPoint);
     }
     event.source._dragRef.reset();
+  }
+  taskInfo() {
+    const dialogRef = this.dialog.open(TaskDetailComponent, {
+      width: "450px",
+      height: "280px",
+      data: { id: this.id },
+    });
   }
   ngOnDestroy(): void {
     //destroy Observable!!!

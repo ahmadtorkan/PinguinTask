@@ -20,7 +20,8 @@ export class TaskDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataService.getTaskByID(this.data.key).subscribe((x) => {
+    console.log(this.data.id);
+    this.dataService.getTaskByID(this.data.id).subscribe((x) => {
       this.taskInfo = x[0];
       this.clearDate = this.utility
         .dataFormatConvertor(x[0].renderedFields.duedate)

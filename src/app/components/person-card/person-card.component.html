@@ -23,6 +23,7 @@
   </div>
   <div
     class="card-box"
+    (click)="taskInfo()"
     cdkDrag
     (cdkDragEnded)="dropped($event)"
     cdkDragBoundary=".card-box"
