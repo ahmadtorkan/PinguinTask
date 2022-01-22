@@ -1,9 +1,5 @@
 <div style="display: flex">
-  <div
-    *ngIf="verySmallCard"
-    [style.left]="startPos - 390 + 'px'"
-    class="small-task-inf"
-  >
+  <div *ngIf="verySmallCard" [style.left]="startPos - 390 + 'px'" class="small-task-inf">
     <div class="card-cont text-white">
       <div class="top-card">
         <div class="card-key">
@@ -24,6 +20,7 @@
   <div
     class="card-box"
     (click)="taskInfo()"
+    (cdkDragStarted)="handleDragStart($event)"
     cdkDrag
     (cdkDragEnded)="dropped($event)"
     cdkDragBoundary=".card-box"

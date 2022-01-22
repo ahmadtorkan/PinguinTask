@@ -1,3 +1,4 @@
+import { CdkDragStart } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
@@ -32,7 +33,8 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   public get taskTime() {
     return this._taskTime;
   }
-  //
+  // drag and click diff
+  dragging: boolean;
   zoomLevel: number;
   top: number = 0;
   startPos: number = 0;
@@ -57,6 +59,10 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     });
     this.smallCard = this.taskTime.days < 7;
   }
+  //
+  public handleDragStart(event: CdkDragStart): void {
+    this.dragging = true;
+  }
   //Drag and drop Event
   dropped(event: any) {
     let xchanged = event.source.getFreeDragPosition().x;
@@ -80,6 +86,10 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   }
   //task Info Dialog
   taskInfo() {
+    if (this.dragging) {
+      this.dragging = false;
+      return;
+    }
     const dialogRef = this.dialog.open(TaskDetailComponent, {
       width: "450px",
       height: "280px",
