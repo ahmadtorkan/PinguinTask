@@ -3,7 +3,7 @@ import { DailyTimeLine, MonthlyTime } from "./model/time-line.model";
 import { SharedService } from "./services/shared.service";
 import { TaskService } from "./services/task.service";
 import { UtilityService } from "./services/utility.service";
-import { concatAll, take, tap } from "rxjs/operators";
+import { concatAll, filter, take, tap } from "rxjs/operators";
 import { interval, Subscription } from "rxjs";
 
 @Component({
@@ -13,6 +13,7 @@ import { interval, Subscription } from "rxjs";
 })
 export class AppComponent implements OnInit, OnDestroy {
   allLabels: string[] = [];
+  activeLabels: string[] = ["EVA", "Roadmap", "revenue"];
   labels: string[] = [];
   allDays: DailyTimeLine[] = [];
   allMonth: MonthlyTime[] = [];
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         tap((x) => (this.allLabels = x)),
         concatAll(),
-        take(1)
+        filter((x) => this.activeLabels.findIndex((l) => l === x) > -1)
       )
       .subscribe((x) => this.labels.push(x));
   }
@@ -70,6 +71,9 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       if (this.labels.indexOf(name) > -1) this.labels.splice(this.labels.indexOf(name), 1);
     }
+  }
+  isActiveLabel(label: string): boolean {
+    return this.activeLabels.findIndex((x) => x === label) > -1;
   }
   //
   ngOnDestroy(): void {
