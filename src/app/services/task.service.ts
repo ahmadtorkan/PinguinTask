@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { distinct, filter, map, take, tap } from "rxjs/operators";
+import { map, take } from "rxjs/operators";
 import { Issue } from "../model/temp-data.model";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { flatten } from "@angular/compiler";
@@ -39,18 +39,11 @@ export class TaskService {
   }
   //
   getTasksOfLabel$(label: string) {
-    return this.tempDate$.pipe(
-      map((x) =>
-        x.filter((v) => v.fields.labels.findIndex((f) => f === label) > -1)
-      )
-    );
+    return this.tempDate$.pipe(map((x) => x.filter((v) => v.fields.labels.findIndex((f) => f === label) > -1)));
   }
   //
   getTaskByID(id: string) {
-    return this.tempDate$.pipe(
-      map((x) => x.filter((v) => v.id === id.toString()), take(1)),
-      tap((x) => console.log(x))
-    );
+    return this.tempDate$.pipe(map((x) => x.filter((v) => v.id === id.toString()), take(1)));
   }
   //
   public get taskDate$() {

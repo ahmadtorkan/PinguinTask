@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { concatAll, first, map, tap } from "rxjs/operators";
+import { concatAll, first } from "rxjs/operators";
 import { Issue } from "src/app/model/temp-data.model";
 import { TaskService } from "src/app/services/task.service";
 import { UtilityService } from "src/app/services/utility.service";

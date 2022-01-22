@@ -4,7 +4,7 @@ import { SharedService } from "./services/shared.service";
 import { TaskService } from "./services/task.service";
 import { UtilityService } from "./services/utility.service";
 import { concatAll, take, tap } from "rxjs/operators";
-import { interval, Subscriber, Subscription } from "rxjs";
+import { interval, Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -50,7 +50,6 @@ export class AppComponent implements OnInit, OnDestroy {
     interval(1000)
       .pipe(take(1))
       .subscribe((x) => {
-        console.log("finish");
         getTimeLine$.unsubscribe();
       });
   }
@@ -64,7 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
       )
       .subscribe((x) => this.labels.push(x));
   }
-
   // add person (label) to page by filtering
   labelAdd(event: any, name: string) {
     if (event.currentTarget.checked) {
