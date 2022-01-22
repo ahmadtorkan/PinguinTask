@@ -12,6 +12,7 @@ import { UtilityService } from "src/app/services/utility.service";
 export class TaskDetailComponent implements OnInit {
   taskInfo: Issue;
   clearDate: string;
+  //
   constructor(
     private utility: UtilityService,
     private dataService: TaskService,
@@ -20,12 +21,9 @@ export class TaskDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data.id);
     this.dataService.getTaskByID(this.data.id).subscribe((x) => {
       this.taskInfo = x[0];
-      this.clearDate = this.utility
-        .dataFormatConvertor(x[0].renderedFields.duedate)
-        .toISOString();
+      this.clearDate = this.utility.dataFormatConvertor(x[0].renderedFields.duedate).toISOString();
     });
   }
 }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { fromEvent } from "rxjs";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { fromEvent, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { DailyTimeLine, MonthlyTime } from "src/app/model/time-line.model";
 import { SharedService } from "src/app/services/shared.service";
@@ -9,19 +9,23 @@ import { SharedService } from "src/app/services/shared.service";
   templateUrl: "./time-line.component.html",
   styleUrls: ["./time-line.component.scss"],
 })
-export class TimeLineComponent implements OnInit {
+export class TimeLineComponent implements OnInit, OnDestroy {
+  //
   @Input("days") allDays: DailyTimeLine[] = [];
   @Input("months") allMonth: MonthlyTime[] = [];
   //
   dayLength: number;
+  //
   isSticky: boolean = false;
-
   dailyTime: boolean = true;
   weeklyTime: boolean = false;
   monthlyTime: boolean = false;
-
+  //
+  zoomSubsc$: Subscription;
+  scrollSubsc$: Subscription;
+  //
   constructor(private sharedService: SharedService) {}
-
+  //
   ngOnInit(): void {
     this.zoominit();
     //
@@ -30,7 +34,7 @@ export class TimeLineComponent implements OnInit {
   //
   //zoom subscribtion
   zoominit() {
-    this.sharedService.zoomLevel$.subscribe((res) => {
+    this.zoomSubsc$ = this.sharedService.zoomLevel$.subscribe((res) => {
       this.dayLength = res + this.sharedService.dayBasis;
       if (res < -20) {
         this.monthlyTime = true;
@@ -49,7 +53,7 @@ export class TimeLineComponent implements OnInit {
   }
   //Scroll Event Handeling
   scrollPage() {
-    fromEvent(document, "scroll")
+    this.scrollSubsc$ = fromEvent(document, "scroll")
       .pipe(map((x: any) => x.target.documentElement.scrollTop))
       .subscribe((x) => {
         if (x > 40) this.isSticky = true;
@@ -60,5 +64,10 @@ export class TimeLineComponent implements OnInit {
   zoomTask(number) {
     if (number === 1) this.sharedService.incrZoomLevel();
     if (number === 0) this.sharedService.decrZoomLevel();
+  }
+  //
+  ngOnDestroy(): void {
+    this.zoomSubsc$.unsubscribe();
+    this.scrollSubsc$.unsubscribe();
   }
 }
