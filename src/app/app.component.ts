@@ -3,7 +3,7 @@ import { DailyTimeLine, MonthlyTime } from "./model/time-line.model";
 import { SharedService } from "./services/shared.service";
 import { TaskService } from "./services/task.service";
 import { UtilityService } from "./services/utility.service";
-import { concatAll, filter, take, tap } from "rxjs/operators";
+import { concatAll, delay, filter, take, tap } from "rxjs/operators";
 import { interval, Subscription } from "rxjs";
 
 @Component({
@@ -15,19 +15,19 @@ export class AppComponent implements OnInit, OnDestroy {
   allLabels: string[] = [];
   activeLabels: string[] = ["EVA", "Roadmap", "revenue"];
   labels: string[] = [];
-  allDays: DailyTimeLine[] = [];
-  allMonth: MonthlyTime[] = [];
   dayLength: number = 1000;
   zoomSubsc$: Subscription;
   labelSubsc$: Subscription;
   //
-  constructor(private dataEngine: TaskService, private sharedService: SharedService, private utility: UtilityService) {}
+  constructor(
+    public dataEngine: TaskService,
+    private sharedService: SharedService,
+    private utility: UtilityService
+  ) {}
   //
   ngOnInit(): void {
     //
     this.zoomListener();
-    //
-    this.timeLineGenerator();
     //
     this.loadLabels();
   }
@@ -37,23 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.dayLength = res + this.sharedService.dayBasis;
     });
   }
-  // Generate time-line
-  timeLineGenerator() {
-    let getTimeLine$ = this.dataEngine.taskDate$.subscribe((x) => {
-      let start = this.utility.addDays(x[0], this.dataEngine.daysBeforeStart);
-      let end = this.utility.addDays(x[x.length - 1], 2);
-      let days = this.utility.getAllDays(start, end);
-      let months = this.utility.getAllmonth(start, end);
-      this.allMonth = months;
-      this.allDays = days;
-    });
-    // unsubscribe timeline update (issue on drag and drop)
-    interval(1000)
-      .pipe(take(1))
-      .subscribe((x) => {
-        getTimeLine$.unsubscribe();
-      });
-  }
+
   //Get first label for initial page (in this case 'EVA')
   loadLabels() {
     this.labelSubsc$ = this.dataEngine.uniqNames$
@@ -63,14 +47,23 @@ export class AppComponent implements OnInit, OnDestroy {
         filter((x) => this.activeLabels.findIndex((l) => l === x) > -1)
       )
       .subscribe((x) => this.labels.push(x));
+    interval(1500)
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.labelSubsc$.unsubscribe();
+      });
   }
   // add person (label) to page by filtering
   labelAdd(event: any, name: string) {
-    if (event.currentTarget.checked) {
-      if (this.labels.indexOf(name) === -1) this.labels.push(name);
-    } else {
-      if (this.labels.indexOf(name) > -1) this.labels.splice(this.labels.indexOf(name), 1);
+    if (event.currentTarget.checked)
+      if (this.activeLabels.findIndex((x) => x === name) > -1) return;
+      else this.activeLabels.push(name);
+    else {
+      if (this.activeLabels.findIndex((x) => x === name) > -1) {
+        this.activeLabels.splice(this.labels.indexOf(name), 1);
+      }
     }
+    this.labels = this.activeLabels;
   }
   isActiveLabel(label: string): boolean {
     return this.activeLabels.findIndex((x) => x === label) > -1;

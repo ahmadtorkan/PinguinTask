@@ -2,14 +2,18 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map, take } from "rxjs/operators";
 import { Issue } from "../model/temp-data.model";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, interval, Observable, of } from "rxjs";
 import { flatten } from "@angular/compiler";
 import { UtilityService } from "./utility.service";
+import { DailyTimeLine, MonthlyTime } from "../model/time-line.model";
 @Injectable({
   providedIn: "root",
 })
 export class TaskService {
   daysBeforeStart: number = -51;
+  allDays: DailyTimeLine[] = [];
+  allMonth: MonthlyTime[] = [];
+
   tempDate$: BehaviorSubject<Issue[]> = new BehaviorSubject([]);
   //
   constructor(private http: HttpClient, private utility: UtilityService) {
@@ -18,6 +22,7 @@ export class TaskService {
   updateData() {
     this.getStaticData().subscribe((x) => {
       this.tempDate$.next(x);
+      this.timeLineGenerator();
     });
   }
   //
@@ -39,11 +44,17 @@ export class TaskService {
   }
   //
   getTasksOfLabel$(label: string) {
-    return this.tempDate$.pipe(map((x) => x.filter((v) => v.fields.labels.findIndex((f) => f === label) > -1)));
+    return this.tempDate$.pipe(
+      map((x) =>
+        x.filter((v) => v.fields.labels.findIndex((f) => f === label) > -1)
+      )
+    );
   }
   //
   getTaskByID(id: string) {
-    return this.tempDate$.pipe(map((x) => x.filter((v) => v.id === id.toString()), take(1)));
+    return this.tempDate$.pipe(
+      map((x) => x.filter((v) => v.id === id.toString()), take(1))
+    );
   }
   //
   public get taskDate$() {
@@ -57,5 +68,21 @@ export class TaskService {
         })
       )
     );
+  } // Generate time-line
+  timeLineGenerator() {
+    let getTimeLine$ = this.taskDate$.subscribe((x) => {
+      let start = this.utility.addDays(x[0], this.daysBeforeStart);
+      let end = this.utility.addDays(x[x.length - 1], 2);
+      let days = this.utility.getAllDays(start, end);
+      let months = this.utility.getAllmonth(start, end);
+      this.allMonth = months;
+      this.allDays = days;
+    });
+    // unsubscribe timeline update (issue on drag and drop)
+    interval(2000)
+      .pipe(take(1))
+      .subscribe((x) => {
+        getTimeLine$.unsubscribe();
+      });
   }
 }

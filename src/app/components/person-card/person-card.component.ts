@@ -1,5 +1,12 @@
 import { CdkDragStart } from "@angular/cdk/drag-drop";
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 import { SharedService } from "src/app/services/shared.service";
@@ -24,8 +31,12 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   @Input("id") id: number = 0;
   //event ON *SET for change task time and week-end calculate
   private _taskTime;
-  @Input("taskTime") public set taskTime(value: { startDay: number; days: number }) {
-    this.startPos = value.startDay * (this.sharedService.dayBasis + this.zoomLevel);
+  @Input("taskTime") public set taskTime(value: {
+    startDay: number;
+    days: number;
+  }) {
+    this.startPos =
+      value.startDay * (this.sharedService.dayBasis + this.zoomLevel);
     this.duration = value.days * (this.sharedService.dayBasis + this.zoomLevel);
 
     this._taskTime = value;
@@ -43,7 +54,12 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   verySmallCard: boolean = false;
   //
   zoomSubj$ = new Subscription();
-  constructor(public dialog: MatDialog, private sharedService: SharedService, private taskService: TaskService, private utility: UtilityService) {}
+  constructor(
+    public dialog: MatDialog,
+    private sharedService: SharedService,
+    private taskService: TaskService,
+    private utility: UtilityService
+  ) {}
   //
   ngOnInit(): void {
     this.zoomListener();
@@ -52,7 +68,8 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   zoomListener() {
     this.zoomSubj$ = this.sharedService.zoomLevel$.subscribe((res) => {
       this.zoomLevel = res;
-      this.startPos = this.taskTime.startDay * (this.sharedService.dayBasis + res);
+      this.startPos =
+        this.taskTime.startDay * (this.sharedService.dayBasis + res);
       this.duration = this.taskTime.days * (this.sharedService.dayBasis + res);
       this.smallCard = this.cardBox.nativeElement.clientWidth < 100;
       this.verySmallCard = res < 30 && this.taskTime.days <= 6;
@@ -68,7 +85,10 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     let xchanged = event.source.getFreeDragPosition().x;
     //Hand shake ignored
     if (xchanged > 20 || xchanged < -20) {
-      let x = Math.floor(event.source.getFreeDragPosition().x / (this.sharedService.dayBasis + this.zoomLevel));
+      let x = Math.floor(
+        event.source.getFreeDragPosition().x /
+          (this.sharedService.dayBasis + this.zoomLevel)
+      );
       if (x >= 0) ++x;
       const lastPoint = this.taskService.tempDate$.value;
       let itemindex = lastPoint.findIndex((x) => +x.id === this.id);
@@ -78,8 +98,8 @@ export class PersonCardComponent implements OnInit, OnDestroy {
       let newDay = ("0" + lastDate.getDate()).slice(-2);
       let newYear = ("0" + lastDate.getFullYear()).slice(-2);
       let newMonth = this.utility.monthShortNames[lastDate.getMonth()];
-      lastPoint[itemindex].renderedFields.duedate = newDay + "/" + newMonth + "/" + newYear;
-
+      lastPoint[itemindex].renderedFields.duedate =
+        newDay + "/" + newMonth + "/" + newYear;
       this.taskService.tempDate$.next(lastPoint);
     }
     event.source._dragRef.reset();

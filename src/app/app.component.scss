@@ -15,6 +15,7 @@ button {
 .label-box {
   background-color: $l-gray;
   width: 100%;
+  max-height: 60px !important;
   box-shadow: 1px 1px 5px 1px $m-gray;
   padding-top: 5px;
   padding: 8px 15px 0 10px;
