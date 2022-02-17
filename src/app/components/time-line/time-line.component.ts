@@ -29,10 +29,10 @@ export class TimeLineComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.zoominit();
     //
-    this.scrollPage();
   }
   //
-  //zoom subscribtion
+  // Listen to zoom Changes AND
+  // HERE I identify show Day OR Week OR Month
   zoominit() {
     this.zoomSubsc$ = this.sharedService.zoomLevel$.subscribe((res) => {
       this.dayLength = res + this.sharedService.dayBasis;
@@ -51,16 +51,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
       }
     });
   }
-  //Scroll Event Handeling
-  scrollPage() {
-    this.scrollSubsc$ = fromEvent(document, "scroll")
-      .pipe(map((x: any) => x.target.documentElement.scrollTop))
-      .subscribe((x) => {
-        if (x > 40) this.isSticky = true;
-        else this.isSticky = false;
-      });
-  }
-  // zoom Event +/-
+  // Zoom Handler for zoom out and zoom in
   zoomTask(number) {
     if (number === 1) this.sharedService.incrZoomLevel();
     if (number === 0) this.sharedService.decrZoomLevel();

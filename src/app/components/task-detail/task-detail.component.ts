@@ -19,11 +19,13 @@ export class TaskDetailComponent implements OnInit {
     public dialogRef: MatDialogRef<TaskDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
+  //Find task information by ID
   ngOnInit(): void {
     this.dataService.getTaskByID(this.data.id).subscribe((x) => {
       this.taskInfo = x[0];
-      this.clearDate = this.utility.dataFormatConvertor(x[0].renderedFields.duedate).toISOString();
+      this.clearDate = this.utility
+        .dataFormatConvertor(x[0].renderedFields.duedate)
+        .toISOString();
     });
   }
 }

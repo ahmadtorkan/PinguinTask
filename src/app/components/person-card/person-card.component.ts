@@ -64,7 +64,6 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.zoomListener();
   }
-  //
   zoomListener() {
     this.zoomSubj$ = this.sharedService.zoomLevel$.subscribe((res) => {
       this.zoomLevel = res;
@@ -76,7 +75,7 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     });
     this.smallCard = this.taskTime.days < 7;
   }
-  //
+  // For ignore click event in drag and drop
   public handleDragStart(event: CdkDragStart): void {
     this.dragging = true;
   }
@@ -104,7 +103,7 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     }
     event.source._dragRef.reset();
   }
-  //task Info Dialog
+  //task Info Dialog OPEN
   taskInfo() {
     if (this.dragging) {
       this.dragging = false;

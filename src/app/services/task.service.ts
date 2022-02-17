@@ -10,22 +10,27 @@ import { DailyTimeLine, MonthlyTime } from "../model/time-line.model";
   providedIn: "root",
 })
 export class TaskService {
+  // Space Days for Drag & Drop availability
   daysBeforeStart: number = -51;
+  // Daily Time line Days List
   allDays: DailyTimeLine[] = [];
+  // Monthly Time line Days List
   allMonth: MonthlyTime[] = [];
-
+  // JSON Data reader from file and Convert it to BehaviorSubject
+  // Because Automatic inject data as initial value .
   tempDate$: BehaviorSubject<Issue[]> = new BehaviorSubject([]);
   //
   constructor(private http: HttpClient, private utility: UtilityService) {
     this.updateData();
   }
+  // For Read data from file without make new get reequest
   updateData() {
     this.getStaticData().subscribe((x) => {
       this.tempDate$.next(x);
       this.timeLineGenerator();
     });
   }
-  //
+  // Data Reader from JSON
   private getStaticData(): Observable<Issue[]> {
     return this.http.get("assets/static/temp-data.json").pipe(
       map((x) => {
@@ -33,8 +38,8 @@ export class TaskService {
       })
     );
   }
-  //
-  public get uniqNames$() {
+  // GET UNIQ labels From Data for page LEFT size
+  public get uniqNames$(): Observable<string[]> {
     return this.tempDate$.pipe(
       map((c) => {
         let set = new Set(flatten(c.map((f) => f.fields?.labels)));
@@ -42,22 +47,22 @@ export class TaskService {
       })
     );
   }
-  //
-  getTasksOfLabel$(label: string) {
+  // Helper function To Get Tasks BY label
+  getTasksOfLabel$(label: string): Observable<Issue[]> {
     return this.tempDate$.pipe(
       map((x) =>
         x.filter((v) => v.fields.labels.findIndex((f) => f === label) > -1)
       )
     );
   }
-  //
-  getTaskByID(id: string) {
+  // Helper function To Get Tasks ID
+  getTaskByID(id: string): Observable<Issue[]> {
     return this.tempDate$.pipe(
       map((x) => x.filter((v) => v.id === id.toString()), take(1))
     );
   }
-  //
-  public get taskDate$() {
+  // Important function for filter tasks DATE from JSON File as TASK DATE LIST
+  public get taskDate$(): Observable<Date[]> {
     return this.tempDate$.pipe(
       map((x) => x.map((c) => c.renderedFields.duedate?.replace("ä", "a"))),
       map((b) => b.filter((x) => x !== undefined)),
@@ -68,8 +73,9 @@ export class TaskService {
         })
       )
     );
-  } // Generate time-line
-  timeLineGenerator() {
+  }
+  // Generate Time-Line (AllDays List & allMonth List fill HERE)
+  private timeLineGenerator() {
     let getTimeLine$ = this.taskDate$.subscribe((x) => {
       let start = this.utility.addDays(x[0], this.daysBeforeStart);
       let end = this.utility.addDays(x[x.length - 1], 2);

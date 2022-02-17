@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { DailyTimeLine, MonthlyTime } from "./model/time-line.model";
 import { SharedService } from "./services/shared.service";
 import { TaskService } from "./services/task.service";
 import { UtilityService } from "./services/utility.service";
@@ -21,8 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //
   constructor(
     public dataEngine: TaskService,
-    private sharedService: SharedService,
-    private utility: UtilityService
+    private sharedService: SharedService
   ) {}
   //
   ngOnInit(): void {
@@ -31,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //
     this.loadLabels();
   }
-  //
+  // Listen To zoom in OR out click to adject time card size and informations
   zoomListener() {
     this.zoomSubsc$ = this.sharedService.zoomLevel$.subscribe((res) => {
       this.dayLength = res + this.sharedService.dayBasis;
@@ -47,13 +45,16 @@ export class AppComponent implements OnInit, OnDestroy {
         filter((x) => this.activeLabels.findIndex((l) => l === x) > -1)
       )
       .subscribe((x) => this.labels.push(x));
+    // Unsubscribe because After Drag and Drop JSON date change and emit new
+    // data and all filters remove
     interval(1500)
       .pipe(take(1))
       .subscribe((x) => {
         this.labelSubsc$.unsubscribe();
       });
   }
-  // add person (label) to page by filtering
+  // Upper Filter
+  // Add person (label) to page by filtering
   labelAdd(event: any, name: string) {
     if (event.currentTarget.checked)
       if (this.activeLabels.findIndex((x) => x === name) > -1) return;

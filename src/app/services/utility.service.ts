@@ -45,6 +45,7 @@ export class UtilityService {
     "Nov",
     "Dec",
   ];
+  // GET all days between two date ++ Weekends
   getAllDays(startDate: Date, endDate: Date): DailyTimeLine[] {
     if (startDate > endDate) return [];
     else {
@@ -64,6 +65,7 @@ export class UtilityService {
       return days;
     }
   }
+  //GET all months between two date
   getAllmonth(startDate: Date, endDate: Date): MonthlyTime[] {
     if (startDate > endDate) return [];
     else {
@@ -97,20 +99,16 @@ export class UtilityService {
       return months;
     }
   }
+  // Add DAY to date
   addDays(date: Date, days: number): Date {
     if (date !== undefined) date.setDate(date.getDate() + days);
     return date;
-  }
-  public sortByDueDate(dateArray: Data[]): void {
-    dateArray.sort((val1, val2) => {
-      return val1.getTime() - val2.getTime();
-    });
   }
   //
   isDateWeekend(date: Date): boolean {
     return date.getDay() === 0 || date.getDay() === 6;
   }
-  //
+  // How many days totaly between two DATE
   totalDays(start: Date, end: Date): number {
     return Math.round((+end - +start) / (1000 * 60 * 60 * 24));
   }
