@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { Subscription } from "rxjs";
 import { concatAll, first } from "rxjs/operators";
 import { Issue } from "src/app/model/temp-data.model";
@@ -12,6 +18,7 @@ import { UtilityService } from "src/app/services/utility.service";
 export class TaskCardComponent implements OnInit, OnDestroy {
   //
   taskItems: Issue[] = [];
+  calcStr: any;
   //
   startTimeLine: Date;
   @Input("label-name") label: string;
@@ -37,7 +44,15 @@ export class TaskCardComponent implements OnInit, OnDestroy {
     // *** Find task items for LABEL
     this.labelDataSubsc$ = this.taskService
       .getTasksOfLabel$(this.label)
-      .subscribe((result) => (this.taskItems = result));
+      .subscribe((result) => {
+        this.taskItems = result;
+        this.taskItems.forEach((item: Issue) => {
+          item.taskTime = this.taskDurCalc(
+            item.renderedFields.duedate,
+            item.fields.timetracking.originalEstimateSeconds
+          );
+        });
+      });
   }
   // *** MOST IMPORTANT FUNCTION IN APPLICATION ***
   // Calculate Task start date (form Start)
@@ -46,6 +61,7 @@ export class TaskCardComponent implements OnInit, OnDestroy {
     estDate: string,
     estSecs: number
   ): { startDay: number; days: number } {
+    console.log("something happend!");
     let latinDate: string = estDate.replace("ä", "a");
     let estDays = estSecs / 28800;
     for (let index = 0; index < estDays; index++) {

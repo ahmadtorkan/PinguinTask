@@ -5,6 +5,7 @@ export interface Issue {
   key: string;
   renderedFields: RenderedFields;
   fields: Fields;
+  taskTime: { startDay: number; days: number };
 }
 export interface RenderedFields {
   statuscategorychangedate: string;

@@ -9,12 +9,7 @@
         [owner]="itm.fields?.creator.displayName"
         [id]="+itm.id"
         [taskDur]="itm.fields.timetracking.originalEstimate"
-        [taskTime]="
-          taskDurCalc(
-            itm.renderedFields.duedate,
-            itm.fields.timetracking.originalEstimateSeconds
-          )
-        "
+        [taskTime]="itm.taskTime"
       ></app-person-card>
     </div>
   </div>
